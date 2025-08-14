@@ -2,6 +2,8 @@ import uuid
 from django.db import models
 from django.conf import settings
 
+from users.models import User
+
 class ChatMessage(models.Model):
     class MessageDirection(models.TextChoices):
         INBOUND = 'INBOUND', 'Inbound'   # From user to us
@@ -16,12 +18,7 @@ class ChatMessage(models.Model):
 
     # --- Core Fields ---
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL, # Keep message history even if user is deleted
-        null=True,
-        related_name='chat_messages'
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField()
 
