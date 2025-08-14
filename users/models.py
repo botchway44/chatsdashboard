@@ -51,12 +51,6 @@ class User(AbstractUser):
     )
     is_verified = models.BooleanField(default=False)
 
-    companies = models.ManyToManyField(
-        'companies.Company',
-        through='companies.CompanyMember',
-        related_name='members'
-        
-    )
     
     # This tells Django to use the email field as the unique identifier for authentication
     USERNAME_FIELD = 'email'
